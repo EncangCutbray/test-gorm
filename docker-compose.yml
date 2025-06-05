@@ -1,0 +1,35 @@
+networks:
+  test_gorm_network:
+    driver: bridge
+
+volumes:
+  test_gorm_volume:
+    driver: local
+
+services:
+    
+  test_gorm_db:
+    image: mariadb:10.6.21
+    container_name: test_gorm_db
+    ports:
+      - 3307:3306
+    environment:
+      - MARIADB_USER=test_gorm_user
+      - MARIADB_PASSWORD=test_gorm_pass
+      - MARIADB_ROOT_PASSWORD=test_gorm_user
+      - MARIADB_DATABASE=test_gorm
+    networks:
+      - test_gorm_network
+    volumes:
+      - test_gorm_volume:/var/lib/mysql
+
+  test_gorm_db_admin:
+    image: phpmyadmin:5.2
+    container_name: test_gorm_db_admin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=test_gorm_db
+      - PMA_PORT=3306
+    networks:
+      - test_gorm_network

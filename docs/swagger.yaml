@@ -1,0 +1,25 @@
+info:
+  contact: {}
+paths:
+  /api/v1/hello:
+    get:
+      consumes:
+      - application/json
+      description: Return Hello From Server
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      summary: Ping endpoint
+      tags:
+      - Example
+swagger: "2.0"
