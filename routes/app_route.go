@@ -7,6 +7,7 @@ import (
 )
 
 func RegisterAppRoute(router *gin.RouterGroup) {
-	router.GET("/hello", handlers.AppHello())
+	router.GET("/hello", handlers.Hello())
+	router.POST("/message", handlers.Message())
 
 }

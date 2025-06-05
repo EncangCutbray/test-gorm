@@ -22,4 +22,31 @@ paths:
       summary: Ping endpoint
       tags:
       - Example
+  /api/v1/message:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Return Message From Server
+      parameters:
+      - description: Hello message content
+        in: formData
+        name: content
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      summary: Send message
+      tags:
+      - Example
 swagger: "2.0"
