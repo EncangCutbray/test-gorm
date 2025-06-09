@@ -1,3 +1,16 @@
+definitions:
+  request.HelloBodyRequest:
+    properties:
+      content:
+        example: This content
+        type: string
+      title:
+        example: This title
+        type: string
+    required:
+    - content
+    - title
+    type: object
 info:
   contact: {}
 paths:
@@ -5,7 +18,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Return Hello From Server
+      description: Return hello From Server
       produces:
       - application/json
       responses:
@@ -13,22 +26,58 @@ paths:
           description: OK
         "400":
           description: Bad Request
+        "403":
+          description: Forbidden
         "404":
           description: Not Found
         "422":
           description: Unprocessable Entity
         "500":
           description: Internal Server Error
-      summary: Ping endpoint
+      summary: Helo endpoint
       tags:
       - Example
-  /api/v1/message:
+  /api/v1/hello-body:
+    post:
+      consumes:
+      - application/json
+      description: Return message from server
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.HelloBodyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      summary: Send message via body
+      tags:
+      - Example
+  /api/v1/hello-form-data:
     post:
       consumes:
       - application/x-www-form-urlencoded
-      description: Return Message From Server
+      description: Return message from server
       parameters:
-      - description: Hello message content
+      - description: title
+        in: formData
+        name: title
+        type: string
+      - description: content
         in: formData
         name: content
         required: true
@@ -46,7 +95,37 @@ paths:
           description: Unprocessable Entity
         "500":
           description: Internal Server Error
-      summary: Send message
+      summary: Send message via form data
+      tags:
+      - Example
+  /api/v1/hello-query:
+    get:
+      consumes:
+      - application/json
+      description: Send the query and return message from server
+      parameters:
+      - description: title
+        in: query
+        name: title
+        type: string
+      - description: content
+        in: query
+        name: content
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      summary: Hello from query
       tags:
       - Example
 swagger: "2.0"

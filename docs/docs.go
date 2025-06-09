@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/api/v1/hello": {
             "get": {
-                "description": "Return Hello From Server",
+                "description": "Return hello From Server",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,13 +27,16 @@ const docTemplate = `{
                 "tags": [
                     "Example"
                 ],
-                "summary": "Ping endpoint",
+                "summary": "Helo endpoint",
                 "responses": {
                     "200": {
                         "description": "OK"
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     },
                     "404": {
                         "description": "Not Found"
@@ -47,9 +50,55 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/message": {
+        "/api/v1/hello-body": {
             "post": {
-                "description": "Return Message From Server",
+                "description": "Return message from server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Example"
+                ],
+                "summary": "Send message via body",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.HelloBodyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/hello-form-data": {
+            "post": {
+                "description": "Return message from server",
                 "consumes": [
                     "application/x-www-form-urlencoded"
                 ],
@@ -59,11 +108,17 @@ const docTemplate = `{
                 "tags": [
                     "Example"
                 ],
-                "summary": "Send message",
+                "summary": "Send message via form data",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Hello message content",
+                        "description": "title",
+                        "name": "title",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "content",
                         "name": "content",
                         "in": "formData",
                         "required": true
@@ -85,6 +140,71 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error"
                     }
+                }
+            }
+        },
+        "/api/v1/hello-query": {
+            "get": {
+                "description": "Send the query and return message from server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Example"
+                ],
+                "summary": "Hello from query",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "title",
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "content",
+                        "name": "content",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "request.HelloBodyRequest": {
+            "type": "object",
+            "required": [
+                "content",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "example": "This content"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "This title"
                 }
             }
         }
